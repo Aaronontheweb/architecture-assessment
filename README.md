@@ -13,7 +13,7 @@ A large codebase can have several places answering the same question without any
 obviously wrong. These skills help you find those decision owners, inspect how they interact, and
 propose a smaller arrangement without erasing behavior that matters.
 
-In Netclaw, the source catalog helped us navigate shell execution and approval code. Following those
+In [Netclaw](https://netclaw.dev/), the source catalog helped us navigate shell execution and approval code. Following those
 leads revealed separate routes for native-tool and temporary-directory corrections, different behavior
 under Auto approval, and background startup outside the foreground tool's checked start path. The
 result was a concrete consolidation plan—not a recommendation to delete whichever class had the most branches.
