@@ -10,6 +10,7 @@ an agent to change it.
 ## Start here
 
 - [Use the skills](#use-the-skills)
+- [Sample prompts](#sample-prompts)
 - [Run the tools without an agent](#run-the-tools-without-an-agent)
 - [How the analyzer works](docs/how-it-works.md)
 - [SQLite tables and query recipes](docs/sqlite.md)
@@ -70,6 +71,97 @@ $simplify Find justified simplifications in that lifecycle. Preserve distinct ow
 If you already installed these skills through another package, choose one source for this invocation.
 Optional references to `interview` and `plan` do not require those skills; the included guidance works
 without them. No credentials or agent service are needed to run the local analysis tools.
+
+## Sample prompts
+
+Start with the goal you want to accomplish. These examples use Codex's `$skill-name` notation;
+in Claude Code, replace it with `/architecture-assessment:architecture-assessment` or
+`/architecture-assessment:simplify`. Adapt the named feature and constraints to your project.
+
+### Understand an unfamiliar codebase
+
+```text
+$architecture-assessment I'm new to this repository. Give me a compact map of its
+main components and what each owns. Trace one important user request from entry
+point to stored state or output, including a failure path. Link your explanation
+to concrete code and tests. Separate current behavior from outdated documentation
+and things you couldn't verify. Start with an overview; don't inventory every
+class or change the code.
+```
+
+Useful output: a navigable system map, a representative journey, source evidence, and explicit gaps.
+
+### Find out why one feature is hard to change
+
+```text
+$architecture-assessment We need to add another notification provider. Investigate
+how the existing providers are selected, configured, called, and retried. Show me
+the concrete places a new provider would need changes, which mechanisms can be
+reused, and where responsibilities overlap. Preserve existing delivery guarantees.
+If intended behavior is unclear, ask me about that specific trade-off. Produce an
+assessment, not an implementation or a new provider framework.
+```
+
+Useful output: an evidence-backed extension path and obstacles, not an automatic redesign.
+
+### Use the C# catalog to choose where to investigate
+
+```text
+$architecture-assessment Use the bundled Roslyn and SQLite tools on a clean
+snapshot of this C# repository. Keep generated output ignored and local. Use the
+catalog to identify a small set of types worth inspecting for concentrated
+branching, large constructors, or potentially overlapping responsibilities.
+Read those types and representative consumers before explaining their purpose.
+Show the queries, source evidence, and limits behind your conclusions. Name
+matches are not symbol references; don't claim zero matches prove dead code.
+```
+
+Useful output: a reproducible catalog plus a short source-reviewed shortlist—not a database dump or
+a claim that the entire architecture has been understood. The collector does not require a target build.
+
+### Propose less code without losing behavior
+
+```text
+$simplify Assess the request-validation path for duplicated rules and competing
+owners. Reconstruct enough of that path to understand it first. Propose the
+smallest useful consolidations, and include reasons to keep apparently similar
+mechanisms separate. Estimate removable production code, replacement code, and
+net change only where source evidence supports it; account for test additions
+separately. Preserve public behavior and explain which existing tests should stay
+unchanged and which new checks are needed. Don't implement anything yet.
+```
+
+Useful output: prioritized candidates with concrete before/after responsibilities, honest estimates,
+counterevidence, and verification. "No justified simplification" is a valid answer.
+
+### Get a proposal you can actually review
+
+```text
+$simplify Investigate whether our background job runners can share more code
+without changing cancellation, output handling, or ownership. Present the result
+as a self-contained HTML proposal using the bundled template where helpful.
+Show current code and proposed changes before introducing architecture jargon.
+Make any decisions you need from me obvious; include alternatives, risks, and
+verification gaps. Check narrow-screen and printed readability if browser tools
+are available, or report that presentation check as unrun. Save it locally and
+stop for review. Don't expose a server, publish findings, or modify product code.
+```
+
+Useful output: a human-readable decision artifact, not implementation approval. Any estimate remains
+a projection until an authorized change has been implemented and verified.
+
+### Assess a non-C# or mixed-language system
+
+```text
+$architecture-assessment Trace how a user changes a preference in our web UI and
+how it reaches the backend and storage. Follow validation and error handling on
+both sides. Use existing repository tools and source inspection; don't force the
+C# collector onto JavaScript, HTML, or CSS. Explain the cross-layer contract and
+which relationships you verified versus inferred. Do not change the application.
+```
+
+Useful output: one coherent cross-layer explanation with honest tooling coverage. The skills work
+across languages even though the bundled declaration collector currently supports only C#.
 
 ## Run the tools without an agent
 
