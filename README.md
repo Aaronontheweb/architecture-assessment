@@ -53,6 +53,47 @@ Then, in your target repository:
 These are optional routes, not a mandatory whole-repository audit. You can request `simplify` directly
 when the relevant architecture is already understood. See [Claude's plugin documentation](https://code.claude.com/docs/en/discover-plugins).
 
+### GitHub Copilot
+
+For **Copilot CLI**, register this marketplace and install the plugin:
+
+```bash
+copilot plugin marketplace add Aaronontheweb/architecture-assessment
+copilot plugin install architecture-assessment@architecture-assessment
+copilot skill list
+```
+
+Start a new session in your target repository, then ask for a concrete outcome:
+
+```text
+Use /architecture-assessment to explain our notification pipeline, including failure and retry. Do not change code.
+Use /simplify to propose consolidations in that pipeline while preserving delivery guarantees. Stop at a proposal.
+```
+
+The CLI uses the existing `.claude-plugin` manifests; there is no separate Copilot copy of the skills.
+Prefer marketplace installation: recent CLI versions warn that direct repository installs are being
+deprecated. Use `copilot plugin update architecture-assessment` to update the installed plugin.
+See [GitHub's plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference).
+
+For **repository-local Copilot skills**, including use in supported IDE agent modes or the cloud agent,
+copy both complete directories from this repository's `skills/` into your target's `.github/skills/`:
+
+```text
+.github/skills/
+├── architecture-assessment/  # Include SKILL.md, references/, and scripts/.
+└── simplify/                 # Include SKILL.md, references/, and assets/.
+```
+
+Preserve existing skills; do not overwrite another installation. Copying just the Markdown entrypoints
+loses the collectors, shared references, and proposal template. CLI installation is local to that CLI;
+it does not install skills into your GitHub cloud-agent environment. Follow your client's discovery and
+enablement instructions. See [GitHub's skill support documentation](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills).
+
+The install check exercises CLI discovery and resource integrity, not model behavior in every Copilot
+client. Installing the package neither installs .NET/Python nor authorizes code changes or tool execution.
+Existing project/personal skills with the same names can take precedence; inspect the reported source
+with `copilot skill list` if the wrong version appears.
+
 ### Codex and other skill-capable agents
 
 Copy **both complete skill directories**, keeping them adjacent, into your harness's skill directory.
@@ -76,7 +117,8 @@ without them. No credentials or agent service are needed to run the local analys
 
 Start with the goal you want to accomplish. These examples use Codex's `$skill-name` notation;
 in Claude Code, replace it with `/architecture-assessment:architecture-assessment` or
-`/architecture-assessment:simplify`. Adapt the named feature and constraints to your project.
+`/architecture-assessment:simplify`. In Copilot, use `Use /architecture-assessment` or `Use /simplify`.
+Adapt the named feature and constraints to your project.
 
 ### Understand an unfamiliar codebase
 
@@ -205,7 +247,8 @@ and don't upload catalogs, internal source, or customer data in issues. The tool
 or upload source; the agent harness you choose has its own data-handling behavior.
 
 CI validates packaging and links, exercises collector/import/annotation boundaries and the worked
-example, and checks the HTML template in Chromium. These checks do not prove an agent's architectural
+example, checks the HTML template in Chromium, and tests Copilot CLI installation/discovery with an
+isolated configuration. These checks do not prove an agent's architectural
 judgment or demonstrate measured time savings. [Behavioral scenarios](evals/assessment-cases.md) describe
 additional evaluations; they are not automated model evaluations in CI.
 
