@@ -5,6 +5,9 @@ what types exist, where responsibilities live, and which areas deserve a closer 
 file into one conversation is expensive and difficult to navigate. A giant generated report has the
 same problem in another format.
 
+For a real repository walkthrough, see the [Netclaw case study](netclaw-case-study.md): collect a pinned
+snapshot, query two shell-related types, inspect their responsibilities, and expose a misleading name count.
+
 This tool builds a **queryable inventory of evidence**. The agent can ask for a small set of declarations,
 inspect their source, and add a concise explanation of their purpose. The database does not decide
 that something is bad architecture, duplicate functionality, or safe to delete.

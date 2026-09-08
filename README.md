@@ -15,6 +15,7 @@ an agent to change it.
 - [How the analyzer works](docs/how-it-works.md)
 - [SQLite tables and query recipes](docs/sqlite.md)
 - [Worked example and actual output](docs/example.md)
+- [Netclaw case study: real profiles and name-match limitations](docs/netclaw-case-study.md)
 - [Limits and verification](#limits-and-verification)
 
 ## What's included
