@@ -1,5 +1,6 @@
 {
   "name": "architecture-assessment",
+  "description": "Architecture assessment and simplification skills with optional source-analysis tools",
   "owner": {"name": "Aaron Stannard"},
   "plugins": [{
     "name": "architecture-assessment",
