@@ -1,0 +1,10 @@
+{
+  "name": "architecture-assessment",
+  "owner": {"name": "Aaron Stannard"},
+  "plugins": [{
+    "name": "architecture-assessment",
+    "source": "./",
+    "version": "0.1.0",
+    "description": "Understand code before simplifying it: two skills and optional source-analysis tools"
+  }]
+}

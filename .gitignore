@@ -1,0 +1,58 @@
+# IDE and editor files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.AppleDouble
+.LSOverride
+._*
+$RECYCLE.BIN/
+
+# Environment and local configuration
+.env
+.env.local
+.env.*.local
+*.local
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.temp
+.cache/
+.temp/
+**/bin/
+**/obj/
+
+# Python tooling
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+ENV/
+
+# Node tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Agent-local artifacts
+.claude/
+*.ai.tmp

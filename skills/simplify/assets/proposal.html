@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>{{title}}</title>
+  <style>
+    :root { --paper:#f6f5f0; --ink:#202b33; --muted:#52616b; --line:#d7dedb;
+      --accent:#155e58; --soft:#e9f2ef; --warn:#875018; --warm:#fff3dd; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink);
+      font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:var(--accent); text-underline-offset:.2em; overflow-wrap:anywhere; }
+    a:hover { text-decoration-thickness:2px; }
+    :focus-visible { outline:3px solid #b45c25; outline-offset:4px; }
+    .skip { position:absolute; top:-80px; left:16px; padding:12px; background:white; z-index:10; }
+    .skip:focus { top:12px; }
+    .wrap { max-width:1120px; padding:0 28px; margin:auto; }
+    header { padding:54px 0 30px; border-bottom:1px solid var(--line); }
+    .eyebrow { font-size:.77rem; text-transform:uppercase; letter-spacing:.16em;
+      font-weight:750; color:var(--accent); }
+    h1 { max-width:900px; font-size:clamp(2rem,4.7vw,3.5rem); line-height:1.12;
+      letter-spacing:-.045em; margin:18px 0; }
+    h2 { font-size:1.55rem; line-height:1.25; letter-spacing:-.025em; margin:0 0 16px; }
+    h3 { font-size:1.06rem; margin:0 0 8px; }
+    h1,h2,h3 { overflow-wrap:anywhere; }
+    p { margin:0 0 14px; } li + li { margin-top:6px; }
+    .lead { max-width:850px; font-size:1.13rem; color:var(--muted); }
+    .status { display:inline-block; background:var(--warm); color:#69400f;
+      padding:5px 12px; border-radius:5px; font-size:.8rem; font-weight:700; }
+    nav { padding:16px 0; border-bottom:1px solid var(--line); }
+    nav .wrap { display:flex; flex-wrap:wrap; gap:12px 25px; }
+    nav a { font-size:.88rem; font-weight:650; }
+    main { padding-top:30px; padding-bottom:60px; }
+    section { margin:0 0 30px; scroll-margin-top:20px; }
+    .card { background:#fff; padding:26px; border:1px solid var(--line); border-radius:12px; }
+    .recommendation { border-left:5px solid var(--accent); }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+    .metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:22px 0; }
+    .metric { padding:20px; background:var(--soft); border-radius:9px; }
+    .metric strong { display:block; font-size:1.85rem; line-height:1.2; letter-spacing:-.035em; }
+    .metric span { display:block; margin-top:8px; font-size:.86rem; color:var(--muted); }
+    .muted, small { color:var(--muted); } .note { background:var(--warm); padding:14px 18px; border-radius:7px; }
+    .tag { display:inline-block; padding:2px 8px; font-size:.75rem; font-weight:700;
+      border:1px solid var(--line); border-radius:4px; margin-right:5px; }
+    details { background:white; border:1px solid var(--line); border-radius:9px; margin:12px 0; }
+    summary { padding:17px 20px; cursor:pointer; font-weight:650; }
+    details[open] summary { border-bottom:1px solid var(--line); }
+    .detail { padding:20px; }
+    .table-scroll { overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th,td { text-align:left; vertical-align:top; padding:11px 12px; border-bottom:1px solid var(--line);
+      overflow-wrap:anywhere; }
+    th { color:var(--muted); font-weight:650; background:#f8faf9; }
+    caption { text-align:left; color:var(--muted); padding-bottom:10px; }
+    code,pre { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.85em; }
+    code { overflow-wrap:anywhere; } pre { background:#eef2f1; padding:16px; overflow:auto; line-height:1.6;
+      white-space:pre-wrap; overflow-wrap:anywhere; }
+    pre code { font-size:inherit; } svg { display:block; width:100%; height:auto; }
+    .flow { display:flex; flex-direction:column; gap:9px; margin:18px 0 0; }
+    .step { border:1px solid var(--line); border-radius:7px; padding:10px 14px; background:#f8faf9; }
+    .step.proposed { background:var(--soft); border-color:#90b5ab; }
+    .arrow { text-align:center; color:var(--muted); line-height:1; }
+    footer { padding:24px 0; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem; }
+    @media(max-width:700px) { .wrap { padding:0 18px; } header { padding-top:30px; }
+      .grid,.metrics { grid-template-columns:1fr; } .card { padding:20px; } .metric { padding:16px; }
+      th,td { padding:10px 8px; }
+      .stack-table,.stack-table tbody,.stack-table tr,.stack-table td { display:block; width:100%; }
+      .stack-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+      .stack-table tr + tr { border-top:2px solid var(--line); margin-top:16px; }
+      .stack-table td { overflow-wrap:anywhere; }
+      .stack-table td::before { content:attr(data-label); display:block; font-weight:700;
+        color:var(--muted); margin-bottom:5px; } }
+    @media print { body { background:white; font-size:10pt; } .wrap { max-width:none; padding:0; }
+      .skip,nav { display:none; } header { padding:0 0 16px; } h1 { font-size:25pt; }
+      section,.card { break-inside:auto; } h2,h3,summary { break-after:avoid; }
+      tr,.step,.flow { break-inside:avoid; } .table-scroll,pre { overflow:visible; }
+      pre { white-space:pre-wrap; overflow-wrap:anywhere; } details::details-content { content-visibility:visible; }
+      details { break-inside:auto; } .metrics { grid-template-columns:repeat(3,1fr); } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to proposal</a>
+  <header><div class="wrap">
+    <div class="eyebrow">Systematize · Architecture decision</div>
+    <h1>{{title}}</h1>
+    <p class="lead">{{subtitle}}</p>
+    <span class="status">{{status}}</span>
+  </div></header>
+  <nav aria-label="Proposal sections"><div class="wrap">{{navigation}}</div></nav>
+  <main class="wrap" id="main">{{body}}</main>
+  <footer><div class="wrap">A proposal is not an approval. Estimates are not measured results.</div></footer>
+</body>
+</html>
