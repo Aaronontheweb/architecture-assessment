@@ -28,7 +28,7 @@ flowchart LR
 ```
 
 There is no background server, automatic LLM call, or requirement to build the target application.
-The three programs can be run without either skill. The skills supply the investigation and judgment
+The three programs can be run without any skill. The skills supply the investigation and judgment
 that measurements alone cannot provide.
 
 ## 1. Pin down exactly what is being measured

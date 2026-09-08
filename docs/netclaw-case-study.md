@@ -29,7 +29,7 @@ an installed skill can do it. The [installation guide](../README.md#use-the-skil
 <details open>
 <summary>With an agent: assess the old code and propose justified simplifications</summary>
 
-Give this prompt to an agent with `architecture-assessment` and `simplify` installed:
+Give this prompt to an agent with the package's three skills installed:
 
 ```text
 Use architecture-assessment on netclaw-dev/netclaw at commit
@@ -42,7 +42,8 @@ candidate callers, then inspect source and tests to verify the relationships.
 Show concrete requests where behavior differs, and explain which differences
 are necessary versus candidates for consolidation. Cite the pinned source.
 
-Then use simplify to propose the smallest justified changes. Explain what
+Then use simplify to propose the smallest justified changes, applying
+architectural-principles to the design trade-offs. Explain what
 existing code to reuse, what could disappear, and what tests would establish
 the change is safe. Separate measured facts, hypotheses, and desired behavior.
 Do not modify Netclaw or launch its processes. Keep generated evidence local.
@@ -50,7 +51,7 @@ Do not modify Netclaw or launch its processes. Keep generated evidence local.
 
 For your own project, replace the repository, revision, and area of concern. You can select the skills
 through your client's skill picker instead of naming them in prose. Ask for a browser-readable proposal
-if desired. Neither skill automatically authorizes implementation.
+if desired. An assessment or proposal does not authorize implementation.
 
 </details>
 

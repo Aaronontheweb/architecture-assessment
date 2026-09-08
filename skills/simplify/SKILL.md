@@ -27,6 +27,10 @@ For a bounded source-level question, explicitly stating that metrics were unnece
 
 ## Account for the concepts
 
+Use [architectural-principles](../architectural-principles/SKILL.md) when judging proposed alternatives:
+apply the relevant defaults within project priorities and the requested scope, not as a separate
+report or a reason to retrofit unrelated code.
+
 For each candidate, compare the responsibilities and mechanisms that exist with a smaller proposed
 arrangement. Trace callers, authority, state lifetime, side effects, failure behavior, and public,
 wire, or storage compatibility. Explain why reuse, extension, or consolidation is adequate.

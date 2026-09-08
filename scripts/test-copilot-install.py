@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-NAMES = {'architecture-assessment', 'simplify'}
+NAMES = {'architecture-assessment', 'architectural-principles', 'simplify'}
 
 
 def check(condition, message):
@@ -35,7 +35,8 @@ def main():
         print(run('plugin', 'install', 'architecture-assessment@architecture-assessment'))
         discovered = json.loads(run('skill', 'list', '--json'))
         skills = [s for s in discovered if s['name'] in NAMES]
-        check(len(skills) == 2 and {s['name'] for s in skills} == NAMES, 'Both skills must be discovered exactly once')
+        check(len(skills) == len(NAMES) and {s['name'] for s in skills} == NAMES,
+              'All bundled skills must be discovered exactly once')
         files = 0
         for skill in skills:
             check(skill['enabled'] and skill['source'] == 'plugin', 'Expected an enabled plugin skill')
@@ -51,7 +52,11 @@ def main():
         simplify = Path(next(s['path'] for s in skills if s['name'] == 'simplify'))
         shared = simplify.parent / 'architecture-assessment/references/csharp.md'
         check(shared.is_file(), 'Sibling evidence reference must remain reachable')
-        print(f'PASS: Copilot discovers both enabled skills; {files} tracked resources match; shared reference resolves.')
+        principles = Path(next(s['path'] for s in skills if s['name'] == 'architectural-principles'))
+        check((simplify.parent / 'architectural-principles').resolve() == principles.resolve(),
+              'Design guidance must remain adjacent to the other skills')
+        check((principles / 'references/csharp.md').is_file(), 'Principles implementation flavor is missing')
+        print(f'PASS: Copilot discovers {len(NAMES)} enabled skills; {files} tracked resources match; shared references resolve.')
         print('No model execution, target analysis, or IDE/cloud-agent validation was performed.')
 
 

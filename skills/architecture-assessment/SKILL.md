@@ -104,6 +104,9 @@ For multi-turn work, checkpoint coverage, evidence, open questions, and the next
 assessment artifact. Resume from that state. Completion means the agreed scope has a supported model
 and explicit gaps, not that every file has been read. Hand off to `simplify` only when
 requested; a missing runtime environment yields a partial claim, not fabricated verification.
-Reuse this model in a proposal rather than producing a competing architecture document. After an
-authorized change, consolidate verified responsibilities and constraints into the current model;
+Reuse this model in a proposal rather than producing a competing architecture document. When asked
+to evaluate possible changes, consult
+[architectural-principles](../architectural-principles/SKILL.md) for relevant design defaults within
+the project's constraints. Describing the current system does not require a principles audit or report.
+After an authorized change, consolidate verified responsibilities and constraints into the current model;
 keep superseded decisions accessible through Git or the existing history instead of routine context.
