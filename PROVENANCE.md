@@ -13,3 +13,7 @@ The public repository has fresh history. Private case studies, databases, resear
 PR discussions, and the other SDLC skills are not included. The initial skill and collector contents
 are unchanged. Later improvements may be ported in either direction through explicit review;
 neither repository automatically updates the other. This is not a promise of a stable schema or roadmap.
+
+The analyzer-first instruction update is maintained in both repositories: assessments attempt bundled
+collection before deep source inspection, with disclosed tooling failures and language-specific limits.
+The collector implementations and schema are unchanged by that instruction update.

@@ -28,8 +28,12 @@ an agent to change it.
 | SQLite catalog | Makes that evidence queryable; stores agent-written purpose explanations separately from measurements. |
 | Static proposal template | Helps present findings as a readable, self-contained HTML page when requested. |
 
-The skills are language-neutral. The optional declaration collector currently supports **C# only**.
-It is **syntax-based, not symbol-bound**: matching names are leads to inspect, not exact references,
+The skills are language-neutral. For a **C#** architecture assessment, always try the repository
+baseline, Roslyn declaration collection, and SQLite catalog/query steps before deep source reading.
+If a prerequisite or analyzer run fails, disclose it and use a bounded manual fallback rather than
+claiming analyzer-backed evidence. Non-C# assessments remain language-neutral and do not require the
+.NET collector; a bounded `simplify` request may also be scoped without a full assessment when explicitly requested.
+The Roslyn collector is **syntax-based, not symbol-bound**: matching names are leads to inspect, not exact references,
 runtime instance counts, or proof of dead code. Neither skill authorizes automatic code changes.
 
 ## Use the skills
@@ -94,6 +98,48 @@ client. Installing the package neither installs .NET/Python nor authorizes code 
 Existing project/personal skills with the same names can take precedence; inspect the reported source
 with `copilot skill list` if the wrong version appears.
 
+### Updating an installed copy
+
+Updates depend on how the skills were installed:
+
+- **Claude Code marketplace plugin:** refresh the marketplace if needed, then update the installed
+  plugin. For the commands used above:
+
+  ```text
+  claude plugin marketplace update architecture-assessment
+  claude plugin update architecture-assessment@architecture-assessment
+  ```
+
+  Use the same `--scope` as the original installation when it was not at user scope. Run
+  `/reload-plugins` in an existing session. Marketplace installs may also be configured for automatic
+  updates. See [Claude Code's plugin
+  documentation](https://code.claude.com/docs/en/plugins-reference).
+
+- **GitHub Copilot CLI marketplace plugin:** update the installed plugin with:
+
+  ```bash
+  copilot plugin update architecture-assessment
+  ```
+
+  Use `--all` only when you intend to update every installed plugin. If the marketplace catalog is
+  stale, refresh it first with `copilot plugin marketplace update architecture-assessment`. If a
+  running session still shows the old components, start a new session. See [GitHub's Copilot CLI
+  plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference).
+
+- **Copied repo-local Copilot skills:** there is no plugin update command for copied directories.
+  Reconcile both complete `skills/architecture-assessment/` and `skills/simplify/` directories from
+  the newer repository revision into the target repository's `.github/skills/`: remove obsolete files
+  from those bundled directories when a release deletes or renames them, while preserving unrelated
+  local skills. Then run `/skills reload` or start a new Copilot CLI session. See [GitHub's
+  agent skills documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills).
+
+- **Copied Codex skill directories:** there is no update command for an arbitrary copied directory.
+  Reconcile both complete skill directories in the chosen `.agents/skills/` location: remove obsolete
+  files from those bundled directories when a release deletes or renames them, while preserving
+  unrelated local skills. Codex detects local skill changes automatically; restart Codex if the new
+  version does not appear. See [OpenAI's
+  official Codex skills documentation](https://developers.openai.com/codex/skills/).
+
 ### Codex and other skill-capable agents
 
 Copy **both complete skill directories**, keeping them adjacent, into your harness's skill directory.
@@ -146,7 +192,7 @@ assessment, not an implementation or a new provider framework.
 
 Useful output: an evidence-backed extension path and obstacles, not an automatic redesign.
 
-### Use the C# catalog to choose where to investigate
+### Analyzer-first C# evidence workflow
 
 ```text
 $architecture-assessment Use the bundled Roslyn and SQLite tools on a clean
@@ -159,7 +205,8 @@ matches are not symbol references; don't claim zero matches prove dead code.
 ```
 
 Useful output: a reproducible catalog plus a short source-reviewed shortlist—not a database dump or
-a claim that the entire architecture has been understood. The collector does not require a target build.
+a claim that the entire architecture has been understood. If the analyzer cannot run, record why and
+keep any manual assessment bounded. The collector does not require a target build.
 
 ### Propose less code without losing behavior
 
@@ -203,7 +250,7 @@ which relationships you verified versus inferred. Do not change the application.
 ```
 
 Useful output: one coherent cross-layer explanation with honest tooling coverage. The skills work
-across languages even though the bundled declaration collector currently supports only C#.
+across languages; the bundled declaration collector currently supports C# only.
 
 ## Run the tools without an agent
 

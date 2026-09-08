@@ -1,7 +1,8 @@
 # Queryable architecture evidence
 
-Use a local SQLite catalog when a large inventory needs filtering, relationships, or separately
-recorded interpretations. A compact human-facing architecture remains the output; do not feed the
+After successful collection, build and query this local SQLite catalog before deep source inspection
+in a C# architecture assessment. Other workflows can use it when inventories need filtering or separately recorded
+interpretations. A compact human-facing architecture remains the output; do not feed the
 entire database back into context. No database server or persistent agent service is needed.
 
 ## Current prototype and its limits
