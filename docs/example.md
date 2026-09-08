@@ -60,4 +60,4 @@ extra branch under this metric's definition. This illustrates why the count shou
 cyclomatic complexity.
 
 The useful next question is not "which number is biggest?" It is "what does this responsibility own,
-and which behavior must be preserved if we change it?" The two skills guide that investigation.
+and which behavior must be preserved if we change it?" The skills guide that investigation and its design choices.

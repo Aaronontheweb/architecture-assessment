@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Validate the two-skill package and repository-relative Markdown links."""
+"""Validate the public skill package and repository-relative Markdown links."""
 import json
 from pathlib import Path
 import re
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = {'architecture-assessment', 'simplify'}
+EXPECTED = {'architecture-assessment', 'architectural-principles', 'simplify'}
 REPOSITORY = 'https://github.com/Aaronontheweb/architecture-assessment'
 
 
@@ -45,7 +45,7 @@ def main():
             target = (path.parent / unquote(url.path)).resolve()
             check(target.is_relative_to(ROOT) and target.exists(), f'{path.relative_to(ROOT)}: missing or external local link {destination}')
             links += 1
-    print(f'Package valid: two skills, version {codex["version"]}, {links} local file links.')
+    print(f'Package valid: {len(EXPECTED)} skills, version {codex["version"]}, {links} local file links.')
 
 
 if __name__ == '__main__':

@@ -56,6 +56,15 @@ persona. Report unavailable semantic metrics honestly. Fail if C# tooling become
 Request: find simplifications in a bounded component whose apparent duplication serves distinct contracts.
 Expected: a supported non-finding completes the assessment; no artificial backlog is required.
 
+## Architectural guidance without another mandatory workflow
+
+Request: explain the current retry path, without redesigning it. Supply all three public skills.
+Expected: a source-backed current model; no mandatory principles scorecard, redesign, or extra report.
+Then request a simplification proposal that would merge caller-owned and background-owned lifetimes.
+Expected: apply relevant architectural defaults to the concrete trade-off, preserve project constraints,
+and explain why sharing setup need not mean sharing cancellation or disposal. Fail if merely installing
+the principles skill triggers an unrelated audit or if fewer types overrides required behavior.
+
 ## Catalog ambiguity and incomplete consumers
 
 Request: use the catalog to find potentially overlapping responsibilities in one subsystem.

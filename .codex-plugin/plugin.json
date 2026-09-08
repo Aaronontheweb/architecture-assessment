@@ -1,7 +1,7 @@
 {
   "name": "architecture-assessment",
-  "version": "0.1.1",
-  "description": "Architecture investigation and simplification skills with Roslyn and SQLite evidence tools",
+  "version": "0.1.2",
+  "description": "Architecture assessment, design principles, and simplification skills with Roslyn and SQLite evidence tools",
   "author": {
     "name": "Aaron Stannard",
     "url": "https://github.com/Aaronontheweb"
@@ -12,7 +12,7 @@
   "interface": {
     "displayName": "Architecture Assessment",
     "shortDescription": "Understand code before simplifying it.",
-    "longDescription": "Two evidence-first skills for understanding existing architecture and proposing safe simplifications. C# syntax inventory and SQLite catalog included.",
+    "longDescription": "Three skills for understanding existing architecture, applying maintainability and reversibility defaults, and proposing safe simplifications. C# syntax inventory and SQLite catalog included.",
     "developerName": "Aaron Stannard",
     "category": "Productivity",
     "capabilities": [],

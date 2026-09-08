@@ -1,11 +1,11 @@
 {
   "name": "architecture-assessment",
-  "description": "Architecture assessment and simplification skills with source-analysis tools",
+  "description": "Architecture assessment, design principles, and simplification skills with source-analysis tools",
   "owner": {"name": "Aaron Stannard"},
   "plugins": [{
     "name": "architecture-assessment",
     "source": "./",
-    "version": "0.1.1",
-    "description": "Understand code before simplifying it: two skills and source-analysis tools"
+    "version": "0.1.2",
+    "description": "Understand code before simplifying it: three skills and source-analysis tools"
   }]
 }

@@ -1,9 +1,9 @@
 {
   "name": "architecture-assessment",
-  "version": "0.1.1",
-  "description": "Architecture investigation and simplification skills with Roslyn and SQLite evidence tools",
+  "version": "0.1.2",
+  "description": "Architecture assessment, design principles, and simplification skills with Roslyn and SQLite evidence tools",
   "author": {"name": "Aaron Stannard", "url": "https://github.com/Aaronontheweb"},
   "repository": "https://github.com/Aaronontheweb/architecture-assessment",
   "license": "MIT",
-  "skills": ["./skills/architecture-assessment", "./skills/simplify"]
+  "skills": ["./skills/architecture-assessment", "./skills/architectural-principles", "./skills/simplify"]
 }

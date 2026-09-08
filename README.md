@@ -4,7 +4,7 @@ Understand what a codebase does, why its parts exist, and where it could become 
 an agent to change it.
 
 > This is an early extract from a larger library of SDLC skills I'm still working on privately.
-> I'm making these two skills and their analysis tools available because people have asked about them.
+> I'm making these three skills and their analysis tools available because people have asked about them.
 > You don't need the rest of that library to use this. Expect iteration, not a finished analysis platform.
 
 ## Why this is useful
@@ -39,6 +39,7 @@ safe deletion, or measured time savings.
 | Component | What it does |
 |---|---|
 | [architecture-assessment](skills/architecture-assessment/SKILL.md) | Reconstructs responsibilities, relationships, contracts, and important execution journeys from evidence. |
+| [architectural-principles](skills/architectural-principles/SKILL.md) | Guides choices about reuse, cohesion, fewest moving parts, explicit outcomes, compatibility, and reversibility. |
 | [simplify](skills/simplify/SKILL.md) | Investigates debt and overlapping mechanisms; proposes justified simplifications with counterevidence, costs, and verification. |
 | Git file collector | Measures committed files, sizes, and physical line counts reproducibly. |
 | Roslyn C# collector | Inventories declarations, syntax branches, constructor parameters, and possible name usages. |
@@ -51,13 +52,18 @@ If a prerequisite or analyzer run fails, disclose it and use a bounded manual fa
 claiming analyzer-backed evidence. Non-C# assessments remain language-neutral and do not require the
 .NET collector; a bounded `simplify` request may also be scoped without a full assessment when explicitly requested.
 The Roslyn collector is **syntax-based, not symbol-bound**: matching names are leads to inspect, not exact references,
-runtime instance counts, or proof of dead code. Neither skill authorizes automatic code changes.
+runtime instance counts, or proof of dead code. Assessment and proposal requests do not authorize implementation.
+
+Use `architecture-assessment` to understand what exists and `simplify` to propose justified reductions.
+Apply `architectural-principles` while choosing among designs, not as a third mandatory report. It also
+works directly on a bounded design or review question. Project-specific priorities govern the trade-offs;
+the defaults are not permission to reorganize unrelated code.
 
 ## Use the skills
 
 ### Claude Code
 
-Install both skills and their supporting files as a plugin:
+Install all three skills and their supporting files as a plugin:
 
 ```text
 /plugin marketplace add Aaronontheweb/architecture-assessment
@@ -69,6 +75,7 @@ Then, in your target repository:
 ```text
 /architecture-assessment:architecture-assessment Assess the payment retry path, including failures. Do not change code.
 /architecture-assessment:simplify Use that assessment to propose simplifications while preserving retry behavior.
+/architecture-assessment:architectural-principles Evaluate this proposed retry abstraction against our compatibility requirements. Do not change code.
 ```
 
 These are optional routes, not a mandatory whole-repository audit. You can request `simplify` directly
@@ -89,6 +96,7 @@ Start a new session in your target repository, then ask for a concrete outcome:
 ```text
 Use /architecture-assessment to explain our notification pipeline, including failure and retry. Do not change code.
 Use /simplify to propose consolidations in that pipeline while preserving delivery guarantees. Stop at a proposal.
+Use /architectural-principles to evaluate this proposed extension point. Preserve our existing public contracts.
 ```
 
 The CLI uses the existing `.claude-plugin` manifests; there is no separate Copilot copy of the skills.
@@ -97,11 +105,12 @@ deprecated. Use `copilot plugin update architecture-assessment` to update the in
 See [GitHub's plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference).
 
 For **repository-local Copilot skills**, including use in supported IDE agent modes or the cloud agent,
-copy both complete directories from this repository's `skills/` into your target's `.github/skills/`:
+copy all three complete directories from this repository's `skills/` into your target's `.github/skills/`:
 
 ```text
 .github/skills/
 ├── architecture-assessment/  # Include SKILL.md, references/, and scripts/.
+├── architectural-principles/ # Include SKILL.md and references/.
 └── simplify/                 # Include SKILL.md, references/, and assets/.
 ```
 
@@ -144,14 +153,14 @@ Updates depend on how the skills were installed:
   plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference).
 
 - **Copied repo-local Copilot skills:** there is no plugin update command for copied directories.
-  Reconcile both complete `skills/architecture-assessment/` and `skills/simplify/` directories from
+  Reconcile all three complete directories under `skills/` from
   the newer repository revision into the target repository's `.github/skills/`: remove obsolete files
   from those bundled directories when a release deletes or renames them, while preserving unrelated
   local skills. Then run `/skills reload` or start a new Copilot CLI session. See [GitHub's
   agent skills documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills).
 
 - **Copied Codex skill directories:** there is no update command for an arbitrary copied directory.
-  Reconcile both complete skill directories in the chosen `.agents/skills/` location: remove obsolete
+  Reconcile all three complete skill directories in the chosen `.agents/skills/` location: remove obsolete
   files from those bundled directories when a release deletes or renames them, while preserving
   unrelated local skills. Codex detects local skill changes automatically; restart Codex if the new
   version does not appear. See [OpenAI's
@@ -159,17 +168,18 @@ Updates depend on how the skills were installed:
 
 ### Codex and other skill-capable agents
 
-Copy **both complete skill directories**, keeping them adjacent, into your harness's skill directory.
+Copy **all three complete skill directories**, keeping them adjacent, into your harness's skill directory.
 For Codex, a repository-local `.agents/skills/` directory is one option; use a location appropriate
 to your setup and do not overwrite existing skills. See [the official skills documentation](https://developers.openai.com/codex/skills/).
-The `simplify` skill links to the assessment's shared evidence references, so copying only `SKILL.md`
-loses useful behavior. A Codex plugin manifest is also included for plugin-capable integrations.
+The skills link to the assessment's evidence references and the architectural design defaults, so
+copying only `SKILL.md` loses useful behavior. A Codex plugin manifest is also included for plugin-capable integrations.
 
 Example prompts after discovery:
 
 ```text
 $architecture-assessment Explain this repository's job lifecycle, including cancellation. Record what you cannot verify.
 $simplify Find justified simplifications in that lifecycle. Preserve distinct ownership and cancellation contracts.
+$architectural-principles Evaluate this proposed job-runner abstraction. Prefer reuse without coupling different lifetimes. Do not implement changes.
 ```
 
 If you already installed these skills through another package, choose one source for this invocation.
@@ -179,8 +189,7 @@ without them. No credentials or agent service are needed to run the local analys
 ## Sample prompts
 
 Start with the goal you want to accomplish. These examples use Codex's `$skill-name` notation;
-in Claude Code, replace it with `/architecture-assessment:architecture-assessment` or
-`/architecture-assessment:simplify`. In Copilot, use `Use /architecture-assessment` or `Use /simplify`.
+in Claude Code, use `/architecture-assessment:<skill-name>`. In Copilot, use `Use /<skill-name>`.
 Adapt the named feature and constraints to your project.
 
 ### Understand an unfamiliar codebase
@@ -314,6 +323,7 @@ CI validates packaging and links, exercises collector/import/annotation boundari
 example, checks the HTML template in Chromium, and tests Copilot CLI installation/discovery with an
 isolated configuration. These checks do not prove an agent's architectural
 judgment or demonstrate measured time savings. [Behavioral scenarios](evals/assessment-cases.md) describe
-additional evaluations; they are not automated model evaluations in CI.
+additional evaluations, including [architectural choices](evals/principles-cases.md); they are not
+automated model evaluations in CI.
 
 [Origin and maintenance](PROVENANCE.md) · [MIT license](LICENSE)
