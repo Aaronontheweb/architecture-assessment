@@ -7,6 +7,22 @@ an agent to change it.
 > I'm making these two skills and their analysis tools available because people have asked about them.
 > You don't need the rest of that library to use this. Expect iteration, not a finished analysis platform.
 
+## Why this is useful
+
+A large codebase can have several places answering the same question without any one class looking
+obviously wrong. These skills help you find those decision owners, inspect how they interact, and
+propose a smaller arrangement without erasing behavior that matters.
+
+In Netclaw, the source catalog helped us navigate shell execution and approval code. Following those
+leads revealed separate routes for native-tool and temporary-directory corrections, different behavior
+under Auto approval, and background startup outside the foreground tool's checked start path. The
+result was a concrete consolidation plan—not a recommendation to delete whichever class had the most branches.
+
+[Read the Netclaw investigation](docs/netclaw-case-study.md) for the queries, source evidence,
+counterexamples, and proposed changes. [Try it with an agent or run it manually](docs/netclaw-case-study.md#1-try-it-with-an-agent-or-run-it-manually).
+The tool helps locate and explain change opportunities; it does not automatically prove duplication,
+safe deletion, or measured time savings.
+
 ## Start here
 
 - [Use the skills](#use-the-skills)
@@ -15,7 +31,7 @@ an agent to change it.
 - [How the analyzer works](docs/how-it-works.md)
 - [SQLite tables and query recipes](docs/sqlite.md)
 - [Worked example and actual output](docs/example.md)
-- [Netclaw case study: real profiles and name-match limitations](docs/netclaw-case-study.md)
+- [Netclaw case study: what we found and how](docs/netclaw-case-study.md)
 - [Limits and verification](#limits-and-verification)
 
 ## What's included
