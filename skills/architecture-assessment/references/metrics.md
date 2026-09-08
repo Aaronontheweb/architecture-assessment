@@ -1,6 +1,7 @@
 # Reproducible baseline
 
-The optional Python 3 collector uses only the standard library and Git:
+Architecture assessments run this baseline before deep source exploration. Other workflows can use
+it when measurements help. The Python 3 collector uses only the standard library and Git:
 
 ```sh
 python3 <skill>/scripts/repository_baseline.py <repository> --revision <commit> > <working-output>/baseline.json

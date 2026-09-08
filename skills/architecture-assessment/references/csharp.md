@@ -1,17 +1,28 @@
 # C#/.NET evidence flavor
 
-Read project files, SDK pinning, central packages, and runtime registration before choosing tooling.
+Read project files, SDK pinning, and central packages to identify scope and available tooling.
+Defer runtime registration and implementation inspection until collection has been attempted and its
+result or blocker reported, as required by the assessment's analyzer-first rule.
 Separate production, tests, benchmarks, samples, generated code, and vendored sources explicitly.
 A test project under `src/` is still a test project. Preserve the same scope for before/after counts.
 
-Use the optional single-file app `../scripts/csharp-metrics.cs` when syntax metrics are useful. It requires
+For a C# architecture assessment, the single-file app `../scripts/csharp-metrics.cs` and
+[SQLite catalog](catalog.md) are the first evidence-gathering attempt, not optional follow-up measurements.
+This requirement belongs to `architecture-assessment`; a bounded `simplify` task using this reference
+does not automatically require a whole-system assessment. The collector requires
 .NET SDK 10.0.300 or later and references that SDK's bundled Roslyn assemblies, without loading a solution.
-Build the collector outside the target repository, then run its DLL against a clean target worktree:
+Check `dotnet --list-sdks` and the SDK selected in the collector's build directory. Build the collector
+outside the target repository, then run its DLL against a clean target worktree:
 
 ```sh
 dotnet build <skill>/scripts/csharp-metrics.cs -o <working-output>/collector
 dotnet <working-output>/collector/csharp-metrics.dll <target-worktree> > <working-output>/csharp.json
 ```
+
+Collect the [file baseline](metrics.md) at that worktree's `HEAD`, then build and query the catalog
+before selecting source to inspect. Surface missing SDKs or failed collection before falling back to
+bounded manual evidence; never imply that collection succeeded. This collector does not require restoring or building the target
+solution; do not execute its build hooks just to obtain syntax evidence.
 
 It reports compiler version, collector binary hash, revision, file hashes, syntax branch counts,
 constructor arity, defaulted parameters, type declarations, and lexical name occurrences.

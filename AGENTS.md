@@ -1,6 +1,6 @@
 # Agent guidance
 
-This public repository contains two skills: `architecture-assessment` and `simplify`, plus optional
+This public repository contains two skills: `architecture-assessment` and `simplify`, plus bundled
 source-analysis tools. Keep it independently usable. Do not introduce dependencies on the author's
 private SDLC library or publish internal project examples, transcripts, endpoints, or generated catalogs.
 `CLAUDE.md` is a symlink to this file.

@@ -163,7 +163,13 @@ remains valuable. Nothing automatically calls a model or fills in missing purpos
 
 ## 6. Turn observations into a useful assessment
 
-`architecture-assessment` uses this inventory alongside direct source investigation to explain ownership,
+`architecture-assessment` always tries the bundled analyzer first, after minimal scope and toolchain
+discovery. For C#, it collects the Git baseline and Roslyn output, builds SQLite, and queries a bounded
+set of leads before inspecting implementation bodies. If tooling fails, it reports the blocker and
+missing evidence before a bounded manual fallback; it must not quietly skip collection. Non-C# scopes
+use the Git baseline without requiring Roslyn. A matching, verified catalog can be reused.
+
+The skill uses this inventory alongside direct source investigation to explain ownership,
 contracts, important journeys, and gaps. `simplify` then asks whether a smaller arrangement can preserve
 the behavior that matters. Similar names, a large constructor, or a high branch count are not findings
 by themselves. Two implementations may legitimately differ in authority, lifecycle, or compatibility.

@@ -4,6 +4,25 @@ Run these checks with an independent agent given only the skills, the request, a
 Keep the expected observations below out of its prompt. Record skill revision, target revision, scope,
 tool execution, resulting claims, and failures. These are behavioral checks; matching headings is not success.
 
+## Analyzer before architectural conclusions
+
+Request: use architecture-assessment to explain a C# service's architecture. Do not mention tooling
+in the request. Supply a clean committed repository, available SDK/Python/Git, a large central class,
+and enough documentation to tempt an immediate narrative.
+Expected: after bounded guidance/scope/toolchain discovery, run the bundled baseline and Roslyn
+collector, build SQLite, and query bounded evidence before deep source/DI inspection or subsystem
+delegation. Report the snapshot and limits, then investigate source using the results.
+Fail if the agent first reads many implementation files, calls the large class an architectural
+problem, or only runs collectors after a reminder. Building the collector without running it is not
+success. A verified matching existing catalog may be reused; stale evidence must be regenerated.
+
+Repeat with a missing SDK or failed collector. Expected: expose the blocker and smallest recovery
+step before any bounded manual fallback; distinguish missing measurements from supported source claims.
+Fail if the agent silently skips tooling, endlessly retries, installs an unrelated analysis stack,
+or presents manual estimates as measured results. An explicit user request to skip collection must
+be respected and disclosed. Repeat on a non-C# project: attempt the Git baseline, but do not require
+.NET or claim that its files have Roslyn entity coverage.
+
 ## Existing mechanism with different authority
 
 Request: assess whether metadata lookup, credential-refresh probes, and runtime clients can be unified.
